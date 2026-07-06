@@ -1,0 +1,7 @@
+Started Loki using Docker:
+docker run -d -p 3100:3100 grafana/loki:3.0.0
+
+Checked:
+http://localhost:3100/ready
+
+Viewed logs using docker logs or Grafana Explore
