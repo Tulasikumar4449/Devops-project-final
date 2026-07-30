@@ -1,7 +1,13 @@
 Started Loki using Docker:
-docker run -d -p 3100:3100 grafana/loki:3.0.0
 
-Checked:
+docker run -d --name loki -p 3100:3100 grafana/loki:3.0.0
+
+Promtail (below) can be run to ship Docker container logs into Loki. Example (from `monitoring/`):
+
+docker compose -f docker-compose-promtail.yml up -d
+
+Checked readiness:
+
 http://localhost:3100/ready
 
-Viewed logs using docker logs or Grafana Explore
+Then use Grafana Explore to query logs from the `docker` job label.
