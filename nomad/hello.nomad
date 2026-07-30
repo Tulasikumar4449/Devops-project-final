@@ -4,15 +4,17 @@ job "hello-devops" {
 
   group "app" {
     network {
-      port "http" { static = 8000 }
+      port "http" {
+        static = 8001
+        to = 8000
+      }
     }
 
     task "hello" {
       driver = "docker"
 
       config {
-        # Replace this with your registry image when you are ready to deploy from a registry.
-        image = "hello-devops:latest"
+        image = "ghcr.io/tulasikumar4449/hello-devops:latest"
         ports = ["http"]
       }
 
@@ -22,6 +24,8 @@ job "hello-devops" {
       }
 
       service {
+        provider = "nomad"
+
         name = "hello-devops"
         port = "http"
 
