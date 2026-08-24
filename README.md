@@ -86,6 +86,8 @@ The dashboard expects Nomad telemetry to be exposed in Prometheus format and scr
 
 The existing Promtail/Loki configuration provides logs only; it does not collect the Prometheus metrics required by this dashboard.
 
+The related dashboards are also available for [Consul](monitoring/consul-cluster-health.json) and [Vault](monitoring/vault-cluster-health.json). Metric names and service telemetry setup are documented in [monitoring/service-metrics-reference.md](monitoring/service-metrics-reference.md).
+
 Notes
 
 - The CI assumes valid registry credentials are stored in GitHub Secrets.
