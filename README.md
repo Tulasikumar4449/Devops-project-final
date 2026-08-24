@@ -74,6 +74,18 @@ docker compose -f docker-compose-promtail.yml up -d
 
 Promtail is configured to read Docker container logs from `/var/lib/docker/containers/*/*-json.log` and push them to Loki at `http://loki:3100`.
 
+### Nomad Grafana dashboard
+
+`monitoring/nomad-cluster-health.json` is an importable Grafana dashboard for Nomad cluster health. It includes client CPU and memory utilization, allocation state, per-job health, unhealthy or pending allocations, client count, and Nomad runtime activity.
+
+The dashboard expects Nomad telemetry to be exposed in Prometheus format and scraped by Prometheus. To use it:
+
+1. Add Prometheus as a Grafana data source.
+2. Import `monitoring/nomad-cluster-health.json` in Grafana.
+3. Select the Prometheus data source when Grafana prompts for `DS_PROMETHEUS`.
+
+The existing Promtail/Loki configuration provides logs only; it does not collect the Prometheus metrics required by this dashboard.
+
 Notes
 
 - The CI assumes valid registry credentials are stored in GitHub Secrets.
