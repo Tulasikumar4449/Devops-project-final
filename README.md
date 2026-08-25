@@ -74,11 +74,26 @@ docker compose -f docker-compose-promtail.yml up -d
 
 Promtail is configured to read Docker container logs from `/var/lib/docker/containers/*/*-json.log` and push them to Loki at `http://loki:3100`.
 
-### Nomad Grafana dashboard
+### Prometheus, Grafana, and application logs
 
 `monitoring/nomad-cluster-health.json` is an importable Grafana dashboard for Nomad cluster health. It includes client CPU and memory utilization, allocation state, per-job health, unhealthy or pending allocations, client count, and Nomad runtime activity.
 
-The dashboard expects Nomad telemetry to be exposed in Prometheus format and scraped by Prometheus. To use it:
+The dashboards expect Nomad, Consul, and Vault telemetry to be exposed in Prometheus format and scraped by Prometheus. The included monitoring compose file provisions Prometheus, Loki, Promtail, and Grafana automatically. Promtail discovers Docker containers through the Docker socket and sends their logs to Loki.
+
+1. Enable Prometheus telemetry in the services. For Nomad, add `telemetry { prometheus_metrics = true }`. For Consul and Vault, enable their Prometheus telemetry settings as described in [monitoring/service-metrics-reference.md](monitoring/service-metrics-reference.md).
+2. Start the monitoring stack from the repository root:
+
+```bash
+docker compose -f monitoring/docker-compose-monitoring.yml up -d
+```
+
+3. Open Grafana at http://localhost:3000 and sign in with `admin` / `admin`. Prometheus and Loki are already configured as datasources, and the dashboards are loaded into the `DevOps` folder automatically.
+4. To view application logs, open Grafana **Explore**, select the `Loki` datasource, and run `{container="hello-devops-app"}`. Visit http://localhost:8000/ once or twice to generate a log entry.
+5. Open Prometheus at http://localhost:9090/targets and confirm the service targets are `UP`.
+
+The Prometheus configuration assumes Nomad, Consul, and Vault run on the host machine. If they run elsewhere, replace `host.docker.internal` targets in `monitoring/prometheus.yml` with their reachable hostnames or IP addresses. Vault metrics may additionally require a Prometheus authentication token.
+
+To use the dashboards manually instead:
 
 1. Add Prometheus as a Grafana data source.
 2. Import `monitoring/nomad-cluster-health.json` in Grafana.

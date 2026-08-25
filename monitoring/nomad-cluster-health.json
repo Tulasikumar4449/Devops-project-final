@@ -26,8 +26,8 @@
       "gridPos": { "h": 4, "w": 6, "x": 0, "y": 0 },
       "id": 1,
       "options": { "colorMode": "value", "graphMode": "area", "justifyMode": "auto", "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
-      "targets": [{ "expr": "sum(nomad_client_allocs_unhealthy)", "legendFormat": "Unhealthy allocations", "refId": "A" }],
-      "title": "Unhealthy Allocations",
+      "targets": [{ "expr": "sum(nomad_client_allocations_blocked)", "legendFormat": "Blocked allocations", "refId": "A" }],
+      "title": "Blocked Allocations",
       "type": "stat"
     },
     {
@@ -36,7 +36,7 @@
       "gridPos": { "h": 4, "w": 6, "x": 6, "y": 0 },
       "id": 2,
       "options": { "colorMode": "value", "graphMode": "area", "justifyMode": "auto", "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
-      "targets": [{ "expr": "sum(nomad_client_allocs_pending)", "legendFormat": "Pending allocations", "refId": "A" }],
+      "targets": [{ "expr": "sum(nomad_client_allocations_pending)", "legendFormat": "Pending allocations", "refId": "A" }],
       "title": "Pending Allocations",
       "type": "stat"
     },
@@ -77,10 +77,10 @@
       "id": 6,
       "options": { "legend": { "calcs": ["lastNotNull", "max"], "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi", "sort": "desc" } },
       "targets": [
-        { "expr": "sum(nomad_client_allocs_running)", "legendFormat": "Running", "refId": "A" },
-        { "expr": "sum(nomad_client_allocs_pending)", "legendFormat": "Pending", "refId": "B" },
-        { "expr": "sum(nomad_client_allocs_failed)", "legendFormat": "Failed", "refId": "C" },
-        { "expr": "sum(nomad_client_allocs_complete)", "legendFormat": "Complete", "refId": "D" }
+        { "expr": "sum(nomad_client_allocations_running)", "legendFormat": "Running", "refId": "A" },
+        { "expr": "sum(nomad_client_allocations_pending)", "legendFormat": "Pending", "refId": "B" },
+        { "expr": "sum(nomad_client_allocations_blocked)", "legendFormat": "Blocked", "refId": "C" },
+        { "expr": "sum(nomad_client_allocations_terminal)", "legendFormat": "Terminal", "refId": "D" }
       ],
       "title": "Allocation State",
       "type": "timeseries"
@@ -92,9 +92,9 @@
       "id": 7,
       "options": { "legend": { "calcs": ["lastNotNull"], "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi", "sort": "desc" } },
       "targets": [
-        { "expr": "sum by (job) (nomad_nomad_job_summary_running)", "legendFormat": "{{job}} running", "refId": "A" },
-        { "expr": "sum by (job) (nomad_nomad_job_summary_failed)", "legendFormat": "{{job}} failed", "refId": "B" },
-        { "expr": "sum by (job) (nomad_nomad_job_summary_queued)", "legendFormat": "{{job}} queued", "refId": "C" }
+        { "expr": "sum(nomad_nomad_job_status_running)", "legendFormat": "Running", "refId": "A" },
+        { "expr": "sum(nomad_nomad_job_status_dead)", "legendFormat": "Dead", "refId": "B" },
+        { "expr": "sum(nomad_nomad_job_status_pending)", "legendFormat": "Pending", "refId": "C" }
       ],
       "title": "Job Health",
       "type": "timeseries"
