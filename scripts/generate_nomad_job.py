@@ -69,6 +69,7 @@ def generate_nomad_job(
       }}
 
       service {{
+        provider = "nomad"
         name = "{job_name}"
         port = "http"
 

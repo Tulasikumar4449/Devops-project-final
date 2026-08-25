@@ -24,6 +24,7 @@ job "api-service" {
       }
 
       service {
+        provider = "nomad"
         name = "api-service"
         port = "http"
 
