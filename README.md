@@ -58,6 +58,18 @@ Update `nomad/hello.nomad` to set `NOMAD_META_REGISTRY_URL` (or replace the `ima
 nomad job run nomad/hello.nomad
 ```
 
+### Generate Nomad jobs automatically
+
+Use `scripts/generate_nomad_job.py` to create a job specification with dynamic service, resource, and port values:
+
+```bash
+python scripts/generate_nomad_job.py --job-name api-service --image ghcr.io/example/api:latest --cpu 500 --memory 256 --port 8000 --exposed-port 8001 --output nomad/api-service.nomad
+nomad job validate nomad/api-service.nomad
+nomad job run nomad/api-service.nomad
+```
+
+The script supports different job names, images, CPU and memory allocations, container ports, exposed host ports, and datacenters. The generator tests cover three different service configurations.
+
 Monitoring and Logs
 
 1. Start Loki (example):
